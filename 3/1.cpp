@@ -20,29 +20,12 @@ int get_bank_joltage(string bank) {
     return joltage;
 }
 
-vector<int> get_joltages(vector<string> banks) {
-    vector<int> joltages;
-
-    for (auto bank: banks) {
-        joltages.push_back(get_bank_joltage(bank));
-    }
-
-    return joltages;
-}
-
 int main() {
-    vector<string> banks;
-
+    int res = 0;
     string line;
+
     while (getline(cin, line)) {
-        banks.push_back(line);
-    }
-
-    long res = 0;
-
-    for (auto joltage: get_joltages(banks)) {
-        cout << joltage << "\n";
-        res += joltage;
+        res += get_bank_joltage(line);
     }
 
     cout << res << endl;
