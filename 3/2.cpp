@@ -4,58 +4,36 @@
 
 using namespace std;
 
-void build_joltages(string bank, vector<long> *joltages, int pos = -1, string joltage = "") {
-    if (pos == -1) {
-        pos = bank.length() - 1;
-    }
-
-    joltage = bank[pos] + joltage;
-
+long get_bank_joltage(string bank, int pos = 0, string joltage = "") {
     if (joltage.length() == 12) {
-        joltages->push_back(stol(joltage));
-        return;
+        return stol(joltage);
     }
 
-    for (int i = pos - 1; i >= max(0, pos - 12); i--) {
-        build_joltages(bank, joltages, i, joltage);
-    }
-}
+    for (int i = 9; i >= 1; i--) {
+        auto next_pos = bank.find(to_string(i), pos);
 
-long get_bank_joltage(string bank) {
-    vector<long> joltages;
-    build_joltages(bank, &joltages);
+        if (next_pos == string::npos) {
+            continue;
+        }
 
-    long joltage = 0;
-    for (auto j: joltages) {
-        joltage = max(joltage, j);
-    }
+        long result = get_bank_joltage(bank, next_pos + 1, joltage + to_string(i));
 
-    return joltage;
-}
-
-vector<long> get_joltages(vector<string> banks) {
-    vector<long> joltages;
-
-    for (auto bank: banks) {
-        joltages.push_back(get_bank_joltage(bank));
+        if (result != 0) {
+            return result;
+        }
     }
 
-    return joltages;
+    return 0;
 }
 
 int main() {
-    vector<string> banks;
-
-    string line;
-    while (getline(cin, line)) {
-        banks.push_back(line);
-    }
-
     long long res = 0;
-    for (auto joltage: get_joltages(banks)) {
-        cout << joltage << endl;
-        res += joltage;
+    string line;
+
+    while (getline(cin, line)) {
+        res += get_bank_joltage(line);
     }
+
     cout << res << endl;
 
     return 0;
