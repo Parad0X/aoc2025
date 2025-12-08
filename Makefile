@@ -84,3 +84,17 @@ all:
 	@./main < 6/test.txt
 	@echo "Input:"
 	@./main < 6/input.txt
+
+71:
+	g++ -o main 7/1.cpp
+	@echo "Test:"
+	@./main < 7/test.txt
+	@echo "Input:"
+	@./main < 7/input.txt
+
+72:
+	g++ -o main 7/2.cpp
+	@echo "Test:"
+	@./main < 7/test.txt
+	@echo "Input:"
+	@./main < 7/input.txt
